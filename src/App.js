@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import UserList from "./components/UserList";
+import UserProvider from "./hooks/UserProvider";
+import Footer from "./components/Footer";
+
+const defaultUrl = {
+  "get" : "/data/users.json",
+  "post" : ""
+}
 
 function App() {
+
+  const [url , setUrl] = useState(defaultUrl);
+
+  const submitNewUrl = (newUrl) => {
+    console.log(newUrl);
+    setUrl(newUrl);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header>
+          <h1>Authority Maintenance</h1>
       </header>
-    </div>
+
+
+      <main>
+        <UserProvider url={url}>
+          <UserList />
+        </UserProvider>
+      </main>
+
+      <Footer currentUrl={url} onSubmit={submitNewUrl} />
+    </>
   );
 }
 

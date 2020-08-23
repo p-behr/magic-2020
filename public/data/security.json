@@ -1,0 +1,9 @@
+{
+    "security" : [
+        "APPL",
+        "ADMIN",
+        "PGM",
+        "INTERN"
+    ]
+}
+

@@ -1,0 +1,9 @@
+{
+    "users" : [
+        {"userId" : "ATYLER", "userName" : "Amanda Tyler", "security" : "ADMIN"},
+        {"userId" : "LHAMWAY", "userName" : "Laura Hamway", "security" : "ADMIN"},
+        {"userId" : "JACOSTA", "userName" : "Jose Acosta", "security" : "PGM"},
+        {"userId" : "CHIRD", "userName" : "Chris Hird", "security" : "PGM"},
+        {"userId" : "PDBEHR", "userName" : "Patrick Behr", "security" : "INTERN"}
+    ]
+}
