@@ -85,7 +85,7 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                             name="userId"
                             type="text"
                             placeholder="Enter User ID"
-                            defaultValue={user.userId}
+                            value={user.userId}
                             onChange={handleInputChange}
                             readOnly={mode!=="add"}
                         />
@@ -97,7 +97,7 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                             name="userName"
                             type="text"
                             placeholder="Enter User Name"
-                            defaultValue={user.userName}
+                            value={user.userName}
                             onChange={handleInputChange}
                             readOnly={mode==="delete"}
                         />
