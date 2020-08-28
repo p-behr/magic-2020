@@ -25,16 +25,16 @@ export default function UserProvider ({ url, children }) {
         console.log(`Adding user ${user}`);
 
 
-        // const isDuplicateUser = (users, newUser) => {
-        //     let error = false;
-        //     users.forEach((user)=>{
-        //       if (user.userId === newUser.userId) {
-        //         alert('Duplicate user id is not allowed');
-        //         error = true;
-        //       }
-        //     });
-        //     return error;
-        //   }
+        const isDuplicateUser = (newUser) => {
+            let error = false;
+            users.forEach((user)=>{
+                if (user.userId === newUser.userId) {
+                    alert('Duplicate user id is not allowed');
+                    error = true;
+                }
+            });
+            return error;
+        }
 
 
         const addUser = (user) => {
@@ -65,7 +65,9 @@ export default function UserProvider ({ url, children }) {
         //     .catch(console.error);
         // } else {
             alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
-            addUser(user);
+            if (!isDuplicateUser(user)) {
+                addUser(user);
+            }
         // }
     }
 
