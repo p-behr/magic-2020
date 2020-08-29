@@ -21,6 +21,11 @@ export default function UserList () {
     const {users} = useUsers();
 
     const [formState, setFormState] = useState(defaultFormState);
+    const [filter, setFilter] = useState("");
+
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    }
 
     const handleAdd = () => {
         console.log(`Add button pressed`);
@@ -52,6 +57,13 @@ export default function UserList () {
     return (
         <>
             <Button variant="primary" onClick={handleAdd}>New User</Button>
+            Filter:
+            <input
+                type="text"
+                value={filter}
+                onChange={handleFilterChange}
+            />
+
             <UserForm
                 mode={formState.mode}
                 show={formState.showForm}
@@ -72,7 +84,9 @@ export default function UserList () {
                     <tbody>
                         {
                             users && users.length > 0 ? (
-                                users.map((user) => (
+                                users.filter((user) =>
+                                    filter === "" || user.userName.toUpperCase().includes(filter.toUpperCase())
+                                ).map((user) => (
                                     <UserRow
                                         key={user.userId}
                                         user={user}
