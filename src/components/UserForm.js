@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Toast from "react-bootstrap/Toast";
 import {useUsers} from "../hooks/UserProvider";
 
 const Title = ({mode}) => {
@@ -35,6 +36,7 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
 
     const {addUserRequest, updateUserRequest, deleteUserRequest} = useUsers();
     const [user, setUser] = useState(currentUser);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(()=>{
         setUser(currentUser);
@@ -48,21 +50,24 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(`Save pressed on the form ${JSON.stringify(user)}`);
+        let response = {};
         switch (mode){
             case "add":
-                addUserRequest(user);
-                onCancel();
+                response = addUserRequest(user);
                 break;
             case "edit":
-                updateUserRequest(user);
-                onCancel();
+                response = updateUserRequest(user);
                 break;
             case "delete":
-                deleteUserRequest(user);
-                onCancel();
+                response = deleteUserRequest(user);
                 break;
             default:
-
+        }
+        if (response.success) {
+            onCancel();
+            setErrorMessage("");
+        } else {
+            setErrorMessage(response.message);
         }
     }
 
@@ -122,6 +127,21 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                 </Form>
             </Modal.Body>
             <Modal.Footer>
+                {
+                    errorMessage ? (
+                        <Toast
+                            onClose={()=>setErrorMessage('')}
+                        >
+                            <Toast.Header>
+                                <strong className="mr-auto">Error</strong>
+                            </Toast.Header>
+                            <Toast.Body>{errorMessage}</Toast.Body>
+                        </Toast>
+                    ) : (
+                        <p></p>
+                    )
+                }
+
                 <Button variant="secondary" onClick={onCancel}>Cancel</Button>
                 <Button
                     variant="primary"

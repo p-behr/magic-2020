@@ -29,7 +29,7 @@ export default function UserProvider ({ url, children }) {
             let error = false;
             users.forEach((user)=>{
                 if (user.userId === newUser.userId) {
-                    alert('Duplicate user id is not allowed');
+                    // alert('Duplicate user id is not allowed');
                     error = true;
                 }
             });
@@ -67,8 +67,16 @@ export default function UserProvider ({ url, children }) {
             alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             if (!isDuplicateUser(user)) {
                 addUser(user);
+                return {
+                    "success": true,
+                    "message" : 'User added'
+                }
             }
-        // }
+            return {
+                "success": false,
+                "message" : 'Duplicate UserID not allowed'
+            }
+    // }
     }
 
 
@@ -85,26 +93,30 @@ export default function UserProvider ({ url, children }) {
                 ))
             );
         }
-        if (url.post) {
-            fetch(url.post, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
-            })
-            .then(response => {
-                if (response.ok) {
-                    updateUser(user);
-                }
-                return response.json();
-            })
-            .then(data => console.log(data))
-            .catch(console.error);
-        } else {
+        // if (url.post) {
+        //     fetch(url.post, {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(user),
+        //     })
+        //     .then(response => {
+        //         if (response.ok) {
+        //             updateUser(user);
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => console.log(data))
+        //     .catch(console.error);
+        // } else {
             alert(`PUT hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             updateUser(user);
-        }
+            return {
+                "success": true,
+                "message" : 'User changed'
+            }
+    // }
     }
 
     const deleteUserRequest = (user) => {
@@ -112,26 +124,30 @@ export default function UserProvider ({ url, children }) {
         const deleteUser = (deleteUser) => {
             setUsers(users.filter(user => user.userId !== deleteUser.userId));
         }
-        if (url.post) {
-            fetch(url.post, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
-            })
-            .then(response => {
-                if (response.ok) {
-                    deleteUser(user);
-                }
-                return response.json();
-            })
-            .then(data => console.log(data))
-            .catch(console.error);
-        } else {
+        // if (url.post) {
+        //     fetch(url.post, {
+        //         method: 'DELETE',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(user),
+        //     })
+        //     .then(response => {
+        //         if (response.ok) {
+        //             deleteUser(user);
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => console.log(data))
+        //     .catch(console.error);
+        // } else {
             alert(`DELETE hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             deleteUser(user);
-        }
+            return {
+                "success": true,
+                "message" : 'User deleted'
+            }
+    // }
     }
 
     return (
