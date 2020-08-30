@@ -10,7 +10,16 @@ export default function UserProvider ({ url, children }) {
 
     useEffect(() => {
         if (url.get) {
-            fetch(url.get)
+            console.log(url.get);
+            fetch(url.get, {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'omit',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             .then(response => response.json())
             .then(data => setUsers(data.users))
             .catch(console.error);
