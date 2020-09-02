@@ -13,7 +13,6 @@ function App() {
   const [url , setUrl] = useState(defaultUrl);
 
   const submitNewUrl = (newUrl) => {
-    console.log(newUrl);
     setUrl(newUrl);
   }
 

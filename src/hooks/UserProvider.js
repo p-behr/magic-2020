@@ -10,7 +10,6 @@ export default function UserProvider ({ url, children }) {
 
     useEffect(() => {
         if (url.get) {
-            console.log(url.get);
             fetch(url.get, {
                 method: 'GET',
                 mode: 'cors',
