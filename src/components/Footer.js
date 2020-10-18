@@ -5,11 +5,11 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col";
 
+
 export default function Footer({currentUrl={}, onSubmit=f=>f}) {
 
     const [showSettings, setShowSettings] = useState(false);
     const [url, setUrl] = useState(currentUrl);
-    // const [isChecked, setIsChecked] = useState(url.alert);
 
     const  handleCogPress = () => {
         setShowSettings(!showSettings);

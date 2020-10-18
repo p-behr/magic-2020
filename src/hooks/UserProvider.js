@@ -9,6 +9,11 @@ export default function UserProvider ({ url, children }) {
 
 
     useEffect(() => {
+        fetchData();
+    }, [url]);
+
+    const fetchData = () => {
+        console.log('Fetch data....');
         if (url.get) {
             if (url.alert) {
                 alert(`GET ${url.get}`);
@@ -29,13 +34,10 @@ export default function UserProvider ({ url, children }) {
             alert(`GET hostname:port/path`);
             setUsers([]);
         }
-    }, [url]);
-
+    }
 
     const addUserRequest = (user) => {
-        console.log(`Adding user ${user}`);
-
-
+        // console.log(`Adding user ${user}`);
         const isDuplicateUser = (newUser) => {
             let error = false;
             users.forEach((user)=>{
@@ -46,7 +48,6 @@ export default function UserProvider ({ url, children }) {
             });
             return error;
         }
-
 
         const addUser = (user) => {
             setUsers([
@@ -168,7 +169,7 @@ export default function UserProvider ({ url, children }) {
     }
 
     return (
-        <UserContext.Provider value={{ users, addUserRequest, updateUserRequest, deleteUserRequest }}>
+        <UserContext.Provider value={{ users, addUserRequest, updateUserRequest, deleteUserRequest, fetchData }}>
             {children}
         </UserContext.Provider>
     );

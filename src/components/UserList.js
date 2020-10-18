@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import UserRow from "./UserRow";
 import UserForm from "./UserForm";
-import { useUsers } from "../hooks/UserProvider";
 import Button from "react-bootstrap/Button";
+
+import { useUsers } from "../hooks/UserProvider";
+
 
 const blankUser = {
     userId: '',
@@ -18,7 +20,7 @@ const defaultFormState = {
 
 export default function UserList () {
 
-    const {users} = useUsers();
+    const {users, fetchData} = useUsers();
 
     const [formState, setFormState] = useState(defaultFormState);
     const [filter, setFilter] = useState("");
@@ -37,7 +39,6 @@ export default function UserList () {
     }
 
     const handleEdit = (user) => {
-        // console.log(`Edit button pressed for ${JSON.stringify(user)}`)
         setFormState({
             showForm: true,
             currentUser: user,
@@ -46,7 +47,6 @@ export default function UserList () {
     }
 
     const handleDelete = (user) => {
-        // console.log(`Delete button pressed for ${JSON.stringify(user)}`)
         setFormState({
             showForm: true,
             currentUser: user,
@@ -65,7 +65,7 @@ export default function UserList () {
                 value={filter}
                 onChange={handleFilterChange}
             />
-            <Button variant="outline-primary">
+            <Button variant="outline-primary" onClick={fetchData}>
                 Refresh
                 <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-counterclockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"></path>

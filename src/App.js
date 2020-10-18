@@ -22,15 +22,10 @@ function App() {
       <header>
           <h1>Authority Maintenance</h1>
       </header>
-
-
-      <main>
-        <UserProvider url={url}>
-          <UserList />
-        </UserProvider>
-      </main>
-
-      <Footer currentUrl={url} onSubmit={submitNewUrl} />
+      <UserProvider url={url}>
+        <UserList />
+        <Footer currentUrl={url} onSubmit={submitNewUrl} />
+      </UserProvider>
     </>
   );
 }
