@@ -5,7 +5,8 @@ import Footer from "./components/Footer";
 
 const defaultUrl = {
   "get" : "/data/users.json",
-  "post" : ""
+  "post" : "",
+  "alert" : false
 }
 
 function App() {

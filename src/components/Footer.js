@@ -9,6 +9,7 @@ export default function Footer({currentUrl={}, onSubmit=f=>f}) {
 
     const [showSettings, setShowSettings] = useState(false);
     const [url, setUrl] = useState(currentUrl);
+    // const [isChecked, setIsChecked] = useState(url.alert);
 
     const  handleCogPress = () => {
         setShowSettings(!showSettings);
@@ -23,6 +24,11 @@ export default function Footer({currentUrl={}, onSubmit=f=>f}) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUrl({...url, [name] : value});
+        console.log(url);
+    }
+
+    const handleAlertChange = (e) => {
+        setUrl({...url, alert : e.target.checked});
     }
 
     return (
@@ -56,6 +62,17 @@ export default function Footer({currentUrl={}, onSubmit=f=>f}) {
                                     placeholder="Add a URL for PUT/POST/DELETE requests"
                                     defaultValue={url.post}
                             />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="alert">
+                        <Form.Label column sm="1">Alerts</Form.Label>
+                        <Col sm="10">
+                        <Form.Check
+                            type="checkbox"
+                            name="alert"
+                            onChange={handleAlertChange}
+                            checked={url.alert}
+                        />
                         </Col>
                     </Form.Group>
                     <Button type="submit">Update</Button>

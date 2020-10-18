@@ -37,7 +37,7 @@ export default function UserList () {
     }
 
     const handleEdit = (user) => {
-        console.log(`Edit button pressed for ${JSON.stringify(user)}`)
+        // console.log(`Edit button pressed for ${JSON.stringify(user)}`)
         setFormState({
             showForm: true,
             currentUser: user,
@@ -46,7 +46,7 @@ export default function UserList () {
     }
 
     const handleDelete = (user) => {
-        console.log(`Delete button pressed for ${JSON.stringify(user)}`)
+        // console.log(`Delete button pressed for ${JSON.stringify(user)}`)
         setFormState({
             showForm: true,
             currentUser: user,
@@ -57,13 +57,21 @@ export default function UserList () {
     return (
         <>
             <Button variant="primary" onClick={handleAdd}>New User</Button>
+
+            <br />
             Filter:
             <input
                 type="text"
                 value={filter}
                 onChange={handleFilterChange}
             />
-
+            <Button variant="outline-primary">
+                Refresh
+                <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-counterclockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"></path>
+                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"></path>
+                </svg>
+            </Button>
             <UserForm
                 mode={formState.mode}
                 show={formState.showForm}

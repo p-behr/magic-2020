@@ -10,6 +10,9 @@ export default function UserProvider ({ url, children }) {
 
     useEffect(() => {
         if (url.get) {
+            if (url.alert) {
+                alert(`GET ${url.get}`);
+            }
             fetch(url.get, {
                 method: 'GET',
                 mode: 'cors',
@@ -72,7 +75,9 @@ export default function UserProvider ({ url, children }) {
         //     .then(data => console.log(data))
         //     .catch(console.error);
         // } else {
-            alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            if (url.alert) {
+                alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            }
             if (!isDuplicateUser(user)) {
                 addUser(user);
                 return {
@@ -89,7 +94,7 @@ export default function UserProvider ({ url, children }) {
 
 
     const updateUserRequest = (user) => {
-        console.log(`Updating user ${user}`);
+        // console.log(`Updating user ${user}`);
         const updateUser = (newUser) => {
             setUsers(
                 users.map(oldUser => (
@@ -118,7 +123,9 @@ export default function UserProvider ({ url, children }) {
         //     .then(data => console.log(data))
         //     .catch(console.error);
         // } else {
-            alert(`PUT hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            if (url.alert) {
+                alert(`PUT hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            }
             updateUser(user);
             return {
                 "success": true,
@@ -149,7 +156,9 @@ export default function UserProvider ({ url, children }) {
         //     .then(data => console.log(data))
         //     .catch(console.error);
         // } else {
-            alert(`DELETE hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            if (url.alert) {
+                alert(`DELETE hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            }
             deleteUser(user);
             return {
                 "success": true,
