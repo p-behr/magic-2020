@@ -24,7 +24,6 @@ export default function Footer({currentUrl={}, onSubmit=f=>f}) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUrl({...url, [name] : value});
-        console.log(url);
     }
 
     const handleAlertChange = (e) => {

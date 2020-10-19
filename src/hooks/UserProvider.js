@@ -6,14 +6,16 @@ export const useUsers = () => useContext(UserContext);
 export default function UserProvider ({ url, children }) {
 
     const [users, setUsers] = useState();
-
+    const [message, setMessage] = useState({});
 
     useEffect(() => {
         fetchData();
     }, [url]);
 
     const fetchData = () => {
-        console.log('Fetch data....');
+
+        let message = {"type" : null, "text" : null}
+
         if (url.get) {
             if (url.alert) {
                 alert(`GET ${url.get}`);
@@ -27,70 +29,134 @@ export default function UserProvider ({ url, children }) {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => response.json())
-            .then(data => setUsers(data.users))
-            .catch(console.error);
+            .then(response => {
+                // The default message type & message text will be based on response.ok
+                if (response.ok) {
+                    message.type = 'success';
+                    message.text = 'User List successfully fetched!';
+                } else {
+                    message.type = 'danger';
+                    message.text = 'Tried to fetch the User List; server responded with an error';
+                }
+                // Then we need to parse the response body into JSON
+                return response.json();
+            })
+            .then(data => {
+                // If "success" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.success !== undefined) {
+                    message.type = data.success ? "success" : "danger";
+                }
+                // If "message" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.message !== undefined) {
+                    message.text = data.message;
+                }
+                // Then we need to load the users array
+                return setUsers(data.users);
+            })
+            .catch(err => {
+                message.type = "danger";
+                message.text = err.toString();
+                // console.log(err);
+            })
+            .finally( () => setMessage(message) );
         } else {
-            alert(`GET hostname:port/path`);
+            if (url.alert) {
+                alert(`GET hostname:port/path`);
+            }
             setUsers([]);
         }
     }
 
+    const resetMessage = () => {
+        setMessage({});
+    }
+
     const addUserRequest = (user) => {
-        // console.log(`Adding user ${user}`);
+
         const isDuplicateUser = (newUser) => {
             let error = false;
             users.forEach((user)=>{
                 if (user.userId === newUser.userId) {
-                    // alert('Duplicate user id is not allowed');
                     error = true;
                 }
             });
             return error;
         }
 
-        const addUser = (user) => {
-            setUsers([
-                ...users,
-                {
-                    userId: user.userId,
-                    userName: user.userName,
-                    security: user.security
+        if (url.post) {
+            if (url.alert) {
+                alert(`POST ${url.post} - {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            }
+
+            fetch(url.post, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'omit',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            })
+            .then(response => {
+                // The default message type & message text will be based on response.ok
+                if (response.ok) {
+                    message.type = 'success';
+                    message.text = 'User successfully added!';
+                } else {
+                    message.type = 'danger';
+                    message.text = 'Tried to add the User; server responded with an error';
                 }
-            ]);
-        }
-        // if (url.post) {
-        //     fetch(url.post, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(user),
-        //     })
-        //     .then(response => {
-        //         if (response.ok) {
-        //             addUser(user);
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => console.log(data))
-        //     .catch(console.error);
-        // } else {
+                // Then we need to parse the response body into JSON
+                return response.json();
+            })
+            .then(data => {
+                // If "success" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.success !== undefined) {
+                    message.type = data.success ? "success" : "danger";
+                }
+                // If "message" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.message !== undefined) {
+                    message.text = data.message;
+                }
+                // If "users" is sent as part of the response it will
+                // override the user array we have locally
+                if (data.users) {
+                    setUsers(data.users);
+                // If no "users" is returned, we check for success.
+                // If success then we'll add to the local Users array.
+                } else if (message.type === "success") {
+                    setUsers([
+                        ...users,
+                        {
+                            ...user
+                        }
+                    ])
+                }
+            })
+            .catch(err => {
+                message.type = "danger";
+                message.text = err.toString();
+                // console.log(err);
+            })
+            .finally( () => setMessage(message) );
+        } else {
             if (url.alert) {
                 alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             }
             if (!isDuplicateUser(user)) {
-                addUser(user);
-                return {
-                    "success": true,
-                    "message" : 'User added'
-                }
-            }
-            return {
-                "success": false,
-                "message" : 'Duplicate UserID not allowed'
-            }
-    // }
+                setUsers([
+                    ...users,
+                    {
+                        ...user
+                    }
+                ])
+        }
+        }
     }
 
 
@@ -169,7 +235,15 @@ export default function UserProvider ({ url, children }) {
     }
 
     return (
-        <UserContext.Provider value={{ users, addUserRequest, updateUserRequest, deleteUserRequest, fetchData }}>
+        <UserContext.Provider value={{
+            users,
+            addUserRequest,
+            updateUserRequest,
+            deleteUserRequest,
+            fetchData,
+            message,
+            resetMessage
+        }}>
             {children}
         </UserContext.Provider>
     );

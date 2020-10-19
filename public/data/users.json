@@ -1,4 +1,6 @@
 {
+    "success": true,
+    "message" : "User list, fetched from /user.json",
     "users" : [
         {"userId" : "ATYLER", "userName" : "Amanda Tyler", "security" : "ADMIN"},
         {"userId" : "LHAMWAY", "userName" : "Laura Hamway", "security" : "ADMIN"},

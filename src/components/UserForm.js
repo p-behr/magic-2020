@@ -49,32 +49,25 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(`Save pressed on the form ${JSON.stringify(user)}`);
-        let response = {};
         switch (mode){
             case "add":
-                response = addUserRequest(user);
+                addUserRequest(user);
                 break;
             case "edit":
-                response = updateUserRequest(user);
+                updateUserRequest(user);
                 break;
             case "delete":
-                response = deleteUserRequest(user);
+                deleteUserRequest(user);
                 break;
             default:
         }
-        if (response.success) {
-            onCancel();
-            setErrorMessage("");
-        } else {
-            setErrorMessage(response.message);
-        }
+        // Call onCancel to hide the form
+        onCancel();
     }
 
     return (
         <Modal
             show={show}
-            // onHide={hide}
             backdrop="static"
             keyboard={false}
         >
