@@ -8,6 +8,10 @@ export default function UserProvider ({ url, children }) {
     const [users, setUsers] = useState();
     const [message, setMessage] = useState({});
 
+    const resetMessage = () => {
+        setMessage({});
+    }
+
     useEffect(() => {
         fetchData();
     }, [url]);
@@ -69,12 +73,10 @@ export default function UserProvider ({ url, children }) {
         }
     }
 
-    const resetMessage = () => {
-        setMessage({});
-    }
-
     const addUserRequest = (user) => {
-
+        const addUser = (user) => {
+            setUsers([...users, {...user}]);
+        }
         const isDuplicateUser = (newUser) => {
             let error = false;
             users.forEach((user)=>{
@@ -127,15 +129,11 @@ export default function UserProvider ({ url, children }) {
                 // override the user array we have locally
                 if (data.users) {
                     setUsers(data.users);
-                // If no "users" is returned, we check for success.
-                // If success then we'll add to the local Users array.
+
+                // If no "users" is returned, we check for success;
+                // If success then we'll add the new user to the local array.
                 } else if (message.type === "success") {
-                    setUsers([
-                        ...users,
-                        {
-                            ...user
-                        }
-                    ])
+                    addUser(user);
                 }
             })
             .catch(err => {
@@ -149,19 +147,13 @@ export default function UserProvider ({ url, children }) {
                 alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             }
             if (!isDuplicateUser(user)) {
-                setUsers([
-                    ...users,
-                    {
-                        ...user
-                    }
-                ])
-        }
+                addUser(user);
+            }
         }
     }
 
 
     const updateUserRequest = (user) => {
-        // console.log(`Updating user ${user}`);
         const updateUser = (newUser) => {
             setUsers(
                 users.map(oldUser => (
@@ -202,36 +194,72 @@ export default function UserProvider ({ url, children }) {
     }
 
     const deleteUserRequest = (user) => {
-        console.log(`Deleting user ${user}`);
+
         const deleteUser = (deleteUser) => {
             setUsers(users.filter(user => user.userId !== deleteUser.userId));
         }
-        // if (url.post) {
-        //     fetch(url.post, {
-        //         method: 'DELETE',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(user),
-        //     })
-        //     .then(response => {
-        //         if (response.ok) {
-        //             deleteUser(user);
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => console.log(data))
-        //     .catch(console.error);
-        // } else {
+
+        if (url.post) {
+            if (url.alert) {
+                alert(`DELETE ${url.post} - {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            }
+
+            fetch(url.post, {
+                method: 'DELETE',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'omit',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            })
+            .then(response => {
+                // The default message type & message text will be based on response.ok
+                if (response.ok) {
+                    message.type = 'success';
+                    message.text = 'User successfully deleted!';
+                } else {
+                    message.type = 'danger';
+                    message.text = 'Tried to delete the User; server responded with an error';
+                }
+                // Then we need to parse the response body into JSON
+                return response.json();
+            })
+            .then(data => {
+                // If "success" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.success !== undefined) {
+                    message.type = data.success ? "success" : "danger";
+                }
+                // If "message" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.message !== undefined) {
+                    message.text = data.message;
+                }
+                // If "users" is sent as part of the response it will
+                // override the user array we have locally
+                if (data.users) {
+                    setUsers(data.users);
+
+                // If no "users" is returned, we check for success;
+                // If success then we'll delete the user from the local array.
+                } else if (message.type === "success") {
+                    deleteUser(user);
+                }
+            })
+            .catch(err => {
+                message.type = "danger";
+                message.text = err.toString();
+            })
+            .finally( () => setMessage(message) );
+        } else {
             if (url.alert) {
                 alert(`DELETE hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             }
             deleteUser(user);
-            return {
-                "success": true,
-                "message" : 'User deleted'
-            }
-    // }
+        }
+
     }
 
     return (
