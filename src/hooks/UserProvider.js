@@ -165,32 +165,68 @@ export default function UserProvider ({ url, children }) {
                 ))
             );
         }
-        // if (url.post) {
-        //     fetch(url.post, {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(user),
-        //     })
-        //     .then(response => {
-        //         if (response.ok) {
-        //             updateUser(user);
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => console.log(data))
-        //     .catch(console.error);
-        // } else {
+
+        if (url.post) {
+            if (url.alert) {
+                alert(`PUT ${url.post} - {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+            }
+
+            fetch(url.post, {
+                method: 'PUT',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'omit',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            })
+            .then(response => {
+                // The default message type & message text will be based on response.ok
+                if (response.ok) {
+                    message.type = 'success';
+                    message.text = 'User successfully changed!';
+                } else {
+                    message.type = 'danger';
+                    message.text = 'Tried to change the User; server responded with an error';
+                }
+                // Then we need to parse the response body into JSON
+                return response.json();
+            })
+            .then(data => {
+                // If "success" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.success !== undefined) {
+                    message.type = data.success ? "success" : "danger";
+                }
+                // If "message" is sent as part of the response it will
+                // override the default value derived from response.ok
+                if (data.message !== undefined) {
+                    message.text = data.message;
+                }
+                // If "users" is sent as part of the response it will
+                // override the user array we have locally
+                if (data.users) {
+                    setUsers(data.users);
+
+                // If no "users" is returned, we check for success;
+                // If success then we'll update the user to the local array.
+                } else if (message.type === "success") {
+                    updateUser(user);
+                }
+            })
+            .catch(err => {
+                message.type = "danger";
+                message.text = err.toString();
+                // console.log(err);
+            })
+            .finally( () => setMessage(message) );
+        } else {
             if (url.alert) {
                 alert(`PUT hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
             }
             updateUser(user);
-            return {
-                "success": true,
-                "message" : 'User changed'
-            }
-    // }
+        }
     }
 
     const deleteUserRequest = (user) => {
@@ -275,4 +311,4 @@ export default function UserProvider ({ url, children }) {
             {children}
         </UserContext.Provider>
     );
-};
+}
