@@ -27,7 +27,7 @@ export default function UserProvider ({ url, children }) {
             fetch(url.get, {
                 method: 'GET',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ export default function UserProvider ({ url, children }) {
             fetch(url.post, {
                 method: 'POST',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ export default function UserProvider ({ url, children }) {
             fetch(url.post, {
                 method: 'PUT',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
@@ -243,7 +243,7 @@ export default function UserProvider ({ url, children }) {
             fetch(url.post, {
                 method: 'DELETE',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
