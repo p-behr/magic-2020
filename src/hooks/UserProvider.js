@@ -27,7 +27,7 @@ export default function UserProvider ({ url, children }) {
             fetch(url.get, {
                 method: 'GET',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ export default function UserProvider ({ url, children }) {
         const isDuplicateUser = (newUser) => {
             let error = false;
             users.forEach((user)=>{
-                if (user.userId === newUser.userId) {
+                if (user.THUSER === newUser.THUSER) {
                     error = true;
                 }
             });
@@ -89,13 +89,13 @@ export default function UserProvider ({ url, children }) {
 
         if (url.post) {
             if (url.alert) {
-                alert(`POST ${url.post} - {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+                alert(`POST ${url.post} - {THUSER:"${user.THUSER}", THNAME:"${user.THNAME}", THSECL:"${user.THSECL}"}`);
             }
 
             fetch(url.post, {
                 method: 'POST',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export default function UserProvider ({ url, children }) {
             .finally( () => setMessage(message) );
         } else {
             if (url.alert) {
-                alert(`POST hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+                alert(`POST hostname:port/path {THUSER:"${user.THUSER}", THNAME:"${user.THNAME}", THSECL:"${user.THSECL}"}`);
             }
             if (!isDuplicateUser(user)) {
                 addUser(user);
@@ -157,10 +157,10 @@ export default function UserProvider ({ url, children }) {
         const updateUser = (newUser) => {
             setUsers(
                 users.map(oldUser => (
-                    oldUser.userId === newUser.userId ? {
-                            userId: newUser.userId,
-                            userName: newUser.userName,
-                            security: newUser.security
+                    oldUser.THUSER === newUser.THUSER ? {
+                            THUSER: newUser.THUSER,
+                            THNAME: newUser.THNAME,
+                            THSECL: newUser.THSECL
                         } : oldUser
                 ))
             );
@@ -168,13 +168,13 @@ export default function UserProvider ({ url, children }) {
 
         if (url.post) {
             if (url.alert) {
-                alert(`PUT ${url.post} - {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+                alert(`PUT ${url.post} - {THUSER:"${user.THUSER}", THNAME:"${user.THNAME}", THSECL:"${user.THSECL}"}`);
             }
 
             fetch(url.post, {
                 method: 'PUT',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
@@ -223,7 +223,7 @@ export default function UserProvider ({ url, children }) {
             .finally( () => setMessage(message) );
         } else {
             if (url.alert) {
-                alert(`PUT hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+                alert(`PUT hostname:port/path {THUSER:"${user.THUSER}", THNAME:"${user.THNAME}", THSECL:"${user.THSECL}"}`);
             }
             updateUser(user);
         }
@@ -232,18 +232,18 @@ export default function UserProvider ({ url, children }) {
     const deleteUserRequest = (user) => {
 
         const deleteUser = (deleteUser) => {
-            setUsers(users.filter(user => user.userId !== deleteUser.userId));
+            setUsers(users.filter(user => user.THUSER !== deleteUser.THUSER));
         }
 
         if (url.post) {
             if (url.alert) {
-                alert(`DELETE ${url.post} - {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+                alert(`DELETE ${url.post} - {THUSER:"${user.THUSER}", THNAME:"${user.THNAME}", THSECL:"${user.THSECL}"}`);
             }
 
             fetch(url.post, {
                 method: 'DELETE',
                 mode: 'cors',
-                cache: 'no-cache',
+                cache: 'no-store',
                 credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
@@ -291,7 +291,7 @@ export default function UserProvider ({ url, children }) {
             .finally( () => setMessage(message) );
         } else {
             if (url.alert) {
-                alert(`DELETE hostname:port/path {userId:"${user.userId}", userName:"${user.userName}", userSecurity:"${user.security}"}`);
+                alert(`DELETE hostname:port/path {THUSER:"${user.THUSER}", THNAME:"${user.THNAME}", THSECL:"${user.THSECL}"}`);
             }
             deleteUser(user);
         }

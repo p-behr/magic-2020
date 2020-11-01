@@ -1,11 +1,10 @@
 {
     "success": true,
-    "message" : "User list, fetched from /user.json",
+    "message" : "User list, fetched from /data/user.json",
     "users" : [
-        {"userId" : "ATYLER", "userName" : "Amanda Tyler", "security" : "ADMIN"},
-        {"userId" : "LHAMWAY", "userName" : "Laura Hamway", "security" : "ADMIN"},
-        {"userId" : "JACOSTA", "userName" : "Jose Acosta", "security" : "PGM"},
-        {"userId" : "CHIRD", "userName" : "Chris Hird", "security" : "PGM"},
-        {"userId" : "PDBEHR", "userName" : "Patrick Behr", "security" : "INTRN"}
+        {"THUSER" : "ATYLER", "THNAME" : "Amanda Tyler", "THSECL" : "ADMIN"},
+        {"THUSER" : "LHAMWAY", "THNAME" : "Laura Hamway", "THSECL" : "ADMIN"},
+        {"THUSER" : "JACOSTA", "THNAME" : "Jose Acosta", "THSECL" : "PGM"},
+        {"THUSER" : "PDBEHR", "THNAME" : "Patrick Behr", "THSECL" : "INTERN"}
     ]
 }
