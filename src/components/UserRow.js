@@ -6,9 +6,9 @@ const User = ({user, editButtonClick=f=>f, deleteButtonClick=f=>f }) => {
 
     return (
         <tr>
-            <td>{user.userId}</td>
-            <td>{user.userName}</td>
-            <td>{user.security}</td>
+            <td>{user.THUSER}</td>
+            <td>{user.THNAME}</td>
+            <td>{user.THSECL}</td>
             <td>
                 <Button variant="outline-dark" onClick={()=>editButtonClick(user)}>< FaEdit /></Button>
                 &nbsp;

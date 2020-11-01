@@ -8,9 +8,9 @@ import { useUsers } from "../hooks/UserProvider";
 
 
 const blankUser = {
-    userId: '',
-    userName: '',
-    security: ''
+    THUSER: '',
+    THNAME: '',
+    THSECL: ''
 }
 
 const defaultFormState = {
@@ -117,10 +117,10 @@ export default function UserList () {
                         {
                             users && users.length > 0 ? (
                                 users.filter((user) =>
-                                    filter === "" || user.userName.toUpperCase().includes(filter.toUpperCase())
+                                    filter === "" || user.THNAME.toUpperCase().includes(filter.toUpperCase())
                                 ).map((user) => (
                                     <UserRow
-                                        key={user.userId}
+                                        key={user.THUSER}
                                         user={user}
                                         editButtonClick={handleEdit}
                                         deleteButtonClick={handleDelete}

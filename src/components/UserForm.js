@@ -80,10 +80,10 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                     <Form.Group controlId="formUserId">
                         <Form.Label>User ID</Form.Label>
                         <Form.Control
-                            name="userId"
+                            name="THUSER"
                             type="text"
                             placeholder="Enter User ID"
-                            value={user.userId}
+                            value={user.THUSER}
                             onChange={handleInputChange}
                             readOnly={mode!=="add"}
                         />
@@ -92,10 +92,10 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                     <Form.Group controlId="formUserName">
                         <Form.Label>User Name</Form.Label>
                         <Form.Control
-                            name="userName"
+                            name="THNAME"
                             type="text"
                             placeholder="Enter User Name"
-                            value={user.userName}
+                            value={user.THNAME}
                             onChange={handleInputChange}
                             readOnly={mode==="delete"}
                         />
@@ -104,9 +104,9 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                     <Form.Group controlId="formSecurity">
                         <Form.Label>Security</Form.Label>
                         <Form.Control
-                            name="security"
+                            name="THSECL"
                             as="select"
-                            value={user.security}
+                            value={user.THSECL}
                             onChange={handleInputChange}
                             disabled={mode==="delete"}
                         >
