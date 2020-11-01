@@ -100,7 +100,7 @@ export default function UserProvider ({ url, children }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(user)
             })
             .then(response => {
                 // The default message type & message text will be based on response.ok

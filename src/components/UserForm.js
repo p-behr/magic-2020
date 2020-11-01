@@ -29,7 +29,7 @@ const securityOptions = [
     "ADMIN",
     "APPL",
     "PGM",
-    "INTERN"
+    "INTRN"
 ]
 
 export default function UserForm({ show=false, mode="", currentUser={}, onCancel=f=>f }) {
