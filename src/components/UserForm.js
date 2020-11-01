@@ -86,6 +86,7 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                             value={user.THUSER}
                             onChange={handleInputChange}
                             readOnly={mode!=="add"}
+                            maxLength={10}
                         />
                     </Form.Group>
 
@@ -98,6 +99,7 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                             value={user.THNAME}
                             onChange={handleInputChange}
                             readOnly={mode==="delete"}
+                            maxLength={30}
                         />
                     </Form.Group>
 
@@ -109,6 +111,7 @@ export default function UserForm({ show=false, mode="", currentUser={}, onCancel
                             value={user.THSECL}
                             onChange={handleInputChange}
                             disabled={mode==="delete"}
+                            maxLength={5}
                         >
                             {
                                 securityOptions.map((option) =>(
